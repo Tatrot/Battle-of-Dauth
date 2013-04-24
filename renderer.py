@@ -7,9 +7,9 @@ import time
 
 
 gamename = "Battle of Dauth"
-__builtins__.window_size = (1024,768)
+__builtins__.window_size = (1280,900)
 __builtins__.tile_size = (window_size[0]/25, window_size[1]/16)
-fps = 30
+fps = 60
 __builtins__.px = 0
 __builtins__.py = 480
 pygame.init()
