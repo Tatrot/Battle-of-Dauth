@@ -8,7 +8,8 @@ import time
 
 gamename = "Battle of Dauth"
 __builtins__.window_size = (1280,900)
-__builtins__.tile_size = (window_size[0]/25, window_size[1]/16)
+zoom = [30, 18]
+__builtins__.tile_size = (window_size[0]/zoom[0], window_size[1]/zoom[1])
 fps = 60
 __builtins__.px = 0
 __builtins__.py = 480
@@ -41,10 +42,18 @@ while not done:
         __builtins__.py -= 6
     if pressed[pygame.K_DOWN]:
         __builtins__.py += 6
+    if pressed[pygame.K_KP_PLUS]:
+        zoom[0] -= 3
+        zoom[1] -= 3
+        world.update_tilesize()
+    if pressed[pygame.K_KP_MINUS]:
+        zoom[0] += 3
+        zoom[1] += 3
+        world.update_tilesize()
     if not(pressed[pygame.K_LEFT]) and not(pressed[pygame.K_RIGHT]) and not(pressed[pygame.K_UP]):
         pass
 
-
+    __builtins__.tile_size = (window_size[0]/zoom[0], window_size[1]/zoom[1])
     world.blit()
     pygame.display.set_caption("Adventure of Dauth - FPS: " + str(clock.get_fps())[:5])
     pygame.display.update()

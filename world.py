@@ -1,8 +1,9 @@
 class World(object):
-
+    
     def __init__(self):
         global screen, window_size
         import pygame
+        self.pygame = pygame
         self.background = "sprites/backgrounds/clouds_1.png";
         self.tileset= ["sprites/tiles/none.png", "sprites/tiles/grass.png", "sprites/tiles/dirt.png", "sprites/tiles/water.png",  "sprites/tiles/plate.png",  "sprites/tiles/beam_up.png",  "sprites/tiles/beam_down.png",  "sprites/amb/grass2.png"]
         self.spawn_team1 = (0,9)
@@ -58,6 +59,15 @@ class World(object):
     def __del__(self):
         print "Destruktor von Map"
 
+    def update_tilesize(self):
+        import pygame
+        self.blackbox = pygame.transform.scale(self.blackbox, (tile_size[0], tile_size[1]))
+        self.tiles = []
+        for self.zeile in range(len(self.map_data)):
+            self.tiles.append([])
+            for self.feld in range(len(self.map_data[0])):
+                    self.tiles[self.zeile].append(pygame.image.load(self.tileset[self.map_data[self.zeile][self.feld]]).convert_alpha())
+                    self.tiles[self.zeile][-1] = pygame.transform.scale(self.tiles[self.zeile][-1], (tile_size[0],tile_size[1]))
 
     def blit(self):
         screen.blit(self.background, (0,0))
