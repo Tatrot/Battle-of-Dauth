@@ -1,72 +1,70 @@
-
 class World(object):
 
-    def __init__(self, map_file, pygame_display, map_left, map_right):
-        self.map = getattr(__import__("maps", fromlist=[map_file]), map_file)
-        self.load_map(map_file)
-        self.screen = pygame.display
+    def __init__(self):
+        global screen, window_size
+        import pygame
+        self.background = "sprites/backgrounds/clouds_1.png";
+        self.tileset= ["sprites/tiles/none.png", "sprites/tiles/grass.png", "sprites/tiles/dirt.png", "sprites/tiles/water.png",  "sprites/tiles/plate.png"]
+        self.spawn_team1 = (0,9)
+        self.spawn_team2 = (10,9)
+        self.map_data = \
+        [
+        [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,4],
+        [4,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,4],
+        [4,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+        [4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4],
+        [4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4],
+        [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]
+        ]
 
-        self.pos_layer0 = 0
-        self.size_layer0 = self.layer0.get_size()
-        self.helper_layer0 = "left"
 
-        self.pos_layer1 = 0
-        self.size_layer1 = self.layer1.get_size()
+        self.background = pygame.image.load(self.background).convert_alpha()
+        self.background = pygame.transform.scale(self.background, (window_size[0]+200,window_size[1]+200))
 
-        self.map_left = map_left
-        self.map_right = map_right
-
-
-    def __del__(self):
-        pass
-
-
-    def load_map(self, map_file):
-        self.layer0 = pygame.image.load(self.map.layer0).convert()
-        self.layer0 = pygame.transform.scale(self.layer0, (window_size[0]+200,window_size[1]+200))
-
-        self.layer1 = pygame.image.load(self.map.layer1).convert_alpha()
-        self.layer1 = pygame.transform.scale(self.layer1, (window_size[0]+200,window_size[1]+200))
+        self.blackbox = pygame.image.load("sprites/tiles/black.png").convert_alpha()
+        self.blackbox = pygame.transform.scale(self.blackbox, (tile_size[0], tile_size[1]))
+        
+        self.pos_background = 0
+        self.size_background = self.background.get_size()
 
         self.tiles = []
-
-
-        for self.zeile in range(len(self.map.map_data)):
+        for self.zeile in range(len(self.map_data)):
             self.tiles.append([])
-            for self.feld in range(len(self.map.map_data[0])):
-                if self.map.map_data[self.zeile][self.feld] > 0:
-                    self.tiles[self.zeile].append(pygame.image.load(self.map.tileset[self.map.map_data[self.zeile][self.feld]]).convert_alpha())
+            for self.feld in range(len(self.map_data[0])):
+                    self.tiles[self.zeile].append(pygame.image.load(self.tileset[self.map_data[self.zeile][self.feld]]).convert_alpha())
                     self.tiles[self.zeile][-1] = pygame.transform.scale(self.tiles[self.zeile][-1], (tile_size[0],tile_size[1]))
-                else:
-                    self.tiles[self.zeile].append(self.map.tileset[0])
+                
+
+    def __del__(self):
+        print "Destruktor von Map"
+
 
     def blit(self):
-        self.move_layer0()
-        screen.blit(self.layer0, (self.pos_layer0 , 0))
-        screen.blit(self.layer1, (self.pos_layer1 , 0))
-        for self.zeile in range(len(self.tiles)):
-            for self.feld in range(len(self.tiles[0])):
-                if(self.tiles[self.zeile][self.feld] == "none"):
-                    pass
+        screen.blit(self.background, (0,0))
+        for y in range(0, int(window_size[1] / tile_size[1]) + 1):
+            for x in range(0, int(window_size[0] / tile_size[0]) + 2):
+                if(y+py/tile_size[1] in range(0, len(self.tiles)) and x+px/tile_size[0] in range(0, len(self.tiles[0]))):
+                   screen.blit(self.tiles[y+py/tile_size[1]][x+px/tile_size[0]], (x*tile_size[0]-(px%tile_size[0]),(y*tile_size[1])-(py%tile_size[1]) ))
                 else:
-                    screen.blit(self.tiles[self.zeile][self.feld], (self.feld*tile_size[0] , self.zeile*tile_size[1]))
-
-
-    def move_layer1_left(self):
-        if(self.pos_layer1 - 1 > -200):
-            self.pos_layer1 -= 0.5
-
-    def move_layer1_right(self):
-        if(self.pos_layer1 + 1 < 0):
-            self.pos_layer1 += 0.5
-
-    def move_layer0(self):
-        if(self.helper_layer0 == "left"):
-                self.pos_layer0 = self.pos_layer0 - 0.45
-                if(self.pos_layer0 <= -200):
-                    self.helper_layer0 = "right"
-
-        if(self.helper_layer0 == "right"):
-                self.pos_layer0 = self.pos_layer0 + 0.45
-                if(self.pos_layer0 >= 0):
-                    self.helper_layer0 = "left"
+                   screen.blit(self.blackbox, (x*tile_size[0]-(px%tile_size[0]),(y*tile_size[1])-(py%tile_size[1]) )) 
+        
